@@ -1,0 +1,33 @@
+{
+  "name": "lr-url-parser",
+  "version": "1.0.0",
+  "description": "Parser for request urls, takes placeholders and matches them with real urls",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc tape test/*.js | tap-spec",
+    "report": "nyc report --reporter=html",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "all": "npm run test && npm run report && npm run coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lagoon-road/lr-url-parser.git"
+  },
+  "keywords": [
+    "parser",
+    "url",
+    "lagoon-road"
+  ],
+  "author": "Roy Niels",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lagoon-road/lr-url-parser/issues"
+  },
+  "homepage": "https://github.com/lagoon-road/lr-url-parser#readme",
+  "devDependencies": {
+    "coveralls": "^2.13.0",
+    "nyc": "^10.2.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3"
+  }
+}
