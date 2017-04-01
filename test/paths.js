@@ -1,7 +1,7 @@
 'use-strict';
 
 const tape   = require('tape');
-const parser = require('../index');
+const parser = require('../index')();
 
 tape('Adding urls', test => {
   test.equals(parser.add('/'), true);

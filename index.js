@@ -1,6 +1,6 @@
 'use-strict';
 
-module.exports = (function() {
+module.exports = function() {
   let paths = [];
 
   function parts(path) {
@@ -28,6 +28,7 @@ module.exports = (function() {
       if (path[0] !== '/') {
         return { path };
       }
+
       const needle = parts(path);
       let match    = paths
         .filter(path => path.parts.length === needle.length)
@@ -57,4 +58,4 @@ module.exports = (function() {
       return false;
     }
   }
-}());
+};
