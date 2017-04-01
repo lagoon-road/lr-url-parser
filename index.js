@@ -19,8 +19,10 @@ module.exports = (function() {
     add(path) {
       if (path[0] === '/') {
         paths.push({ path, parts : parts(path) });
+        return true;
+      } else {
+        return false;
       }
-      return true;
     },
     parse(path) {
       if (path[0] !== '/') {
