@@ -19,11 +19,13 @@ module.exports = (function() {
     add(path) {
       if (path[0] === '/') {
         paths.push({ path, parts : parts(path) });
-        return true;
       }
-      return false;
+      return true;
     },
     parse(path) {
+      if (path[0] !== '/') {
+        return { path };
+      }
       const needle = parts(path);
       let match    = paths
         .filter(path => path.parts.length === needle.length)

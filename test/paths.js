@@ -13,7 +13,7 @@ tape('Adding urls', test => {
   test.equals(parser.add('/double/:id/:idi'), true);
   test.equals(parser.add('/multiple/:id'), true);
   test.equals(parser.add('/multiple/:else'), true);
-  test.equals(parser.add('something that is not an url'), false);
+  test.equals(parser.parse('just-something').path, 'just-something');
   test.equals(parser.parse('/some/path').path, '/some/path');
   test.equals(parser.parse('/dynamic/1').path, '/dynamic/:id');
   test.equals(parser.parse('/double/1/2').parameters.id, 1);
