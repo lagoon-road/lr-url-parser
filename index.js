@@ -2,6 +2,7 @@
 
 module.exports = function() {
   let paths = [];
+  let unique = {};
 
   function parts(path) {
     let parts = path.split('?').shift().split('/');
@@ -17,8 +18,9 @@ module.exports = function() {
 
   return {
     add(path) {
-      if (path[0] === '/') {
+      if (path[0] === '/' && !unique[path]) {
         paths.push({ path, parts : parts(path) });
+        unique[path] = true;
         return true;
       } else {
         return false;
@@ -38,10 +40,7 @@ module.exports = function() {
           }).length === 0;
         });
 
-      if (match.length > 1) {
-        match = match.pop();
-        console.warn(`Found multiple paths, using ${ match.path }`);
-      } else if (match.length === 1) {
+      if (match.length > 0) {
         match = match.pop();
       }
 

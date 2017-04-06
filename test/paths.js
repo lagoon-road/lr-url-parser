@@ -17,6 +17,7 @@ tape('Adding urls', test => {
   test.equals(parser.parse('just-something').path, 'just-something');
   test.equals(parser.parse('just-something?askdhjlakhds').path, 'just-something?askdhjlakhds');
   test.equals(parser.parse('/some/path').path, '/some/path');
+  test.equals(parser.parse('/some/path?params').path, '/some/path');
   test.equals(parser.parse('/dynamic/1').path, '/dynamic/:id');
   test.equals(parser.parse('/double/1/2').parameters.id, 1);
   test.equals(parser.parse('/double/1/2').parameters.idi, 2);
