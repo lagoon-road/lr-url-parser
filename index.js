@@ -55,7 +55,7 @@ module.exports = function() {
         return { path : match.path, parameters };
       }
 
-      return false;
+      return { path : path.split('?').shift() };
     }
   }
 };
