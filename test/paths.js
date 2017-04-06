@@ -9,6 +9,7 @@ tape('Adding urls', test => {
   test.equals(parser.add('/:id'), true);
   test.equals(parser.add('/path/with/:multiple/sections'), true);
   test.equals(parser.add('/some/path'), true);
+  test.equals(parser.add('/some/path'), false);
   test.equals(parser.add('/dynamic/:id'), true);
   test.equals(parser.add('/double/:id/:idi'), true);
   test.equals(parser.add('/multiple/:id'), true);
