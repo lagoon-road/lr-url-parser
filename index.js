@@ -18,6 +18,9 @@ module.exports = function() {
 
   return {
     add(path) {
+      if (path[path.length - 1] === '/' && path.length !== 1) {
+        path = path.slice(0, -1);
+      }
       if (path[0] === '/' && !unique[path]) {
         paths.push({ path, parts : parts(path) });
         unique[path] = true;
@@ -29,6 +32,9 @@ module.exports = function() {
     parse(path) {
       if (path[0] !== '/') {
         return { path };
+      }
+      if (path[path.length - 1] === '/' && path.length !== 1) {
+        path = path.slice(0, -1);
       }
 
       const needle = parts(path);
@@ -48,7 +54,7 @@ module.exports = function() {
         let parameters = {};
         match.parts.forEach((part, index) => {
           if (!part.static) {
-            parameters[part.value] = parseInt(needle[index].value);
+            parameters[part.value] = parseInt(needle[index].value) ? parseInt(needle[index].value) : needle[index].value;
           }
         });
         return { path : match.path, parameters };

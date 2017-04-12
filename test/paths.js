@@ -5,6 +5,9 @@ const parser = require('../index')();
 
 tape('Adding urls', test => {
   test.equals(parser.add('/'), true);
+  test.equals(parser.add('/trail/'), true);
+  test.equals(parser.add('/trail/:id/'), true);
+  test.equals(parser.add('/trail/:id/:something/'), true);
   test.equals(parser.add('/somepath?queryparams'), true);
   test.equals(parser.add('/:id'), true);
   test.equals(parser.add('/path/with/:multiple/sections'), true);
@@ -20,11 +23,17 @@ tape('Adding urls', test => {
   test.equals(parser.parse('/some/path').path, '/some/path');
   test.equals(parser.parse('/some/path?params').path, '/some/path');
   test.equals(parser.parse('/dynamic/1').path, '/dynamic/:id');
+  test.equals(parser.parse('/hey').parameters.id, 'hey');
+  test.equals(parser.parse('/hey/').parameters.id, 'hey');
   test.equals(parser.parse('/double/1/2').parameters.id, 1);
   test.equals(parser.parse('/double/1/2').parameters.idi, 2);
   test.equals(parser.parse('/multiple/1').parameters.id, undefined);
   test.equals(parser.parse('/multiple/1').parameters.else, 1);
   test.equals(parser.parse('/bla/bla').path, '/bla/bla');
   test.equals(parser.parse('/bla/bla?hehe').path, '/bla/bla');
+  test.equals(parser.parse('/trail/hehe').parameters.id, 'hehe');
+  test.equals(parser.parse('/trail/hehe/').parameters.id, 'hehe');
+  test.equals(parser.parse('/trail/hehe/haha').parameters.id, 'hehe');
+  test.equals(parser.parse('/trail/hehe/haha/').parameters.something, 'haha');
   test.end();
 });
