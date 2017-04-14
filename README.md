@@ -8,7 +8,7 @@ Parser that can take placeholders from urls and match them with real urls
 | Code coverage | [![Coverage Status](https://coveralls.io/repos/github/lagoon-road/lr-url-parser/badge.svg?branch=master)](https://coveralls.io/github/lagoon-road/lr-url-parser?branch=master) |
 | Repo link | [lr-client-router](https://github.com/lagoon-road/lr-client-router) |
 | Dependencies | - |
-| Size (Browserify, Babel, Uglify and Gzip)| 639 bytes |
+| Size (Browserify, Babel and Gzip)| 777 bytes |
 | Version | 1.0.0 |
 | License | MIT |
 | Usage | [guide](https://lagoonroad.com/guide) |
