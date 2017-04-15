@@ -18,8 +18,7 @@ Parser that can take placeholders from urls and match them with real urls
 ### Adding the parser to lagoon road
 
 ```
-const core = require('lr-core');
-const road = core('client')
+require('lr-main')('client')
   .parser(require('lr-url-parser'));
 ```
 
