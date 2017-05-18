@@ -54,7 +54,9 @@ module.exports = function() {
         let parameters = {};
         match.parts.forEach((part, index) => {
           if (!part.static) {
-            parameters[part.value] = parseInt(needle[index].value) ? parseInt(needle[index].value) : needle[index].value;
+            const valueParsed = parseInt(needle[index].value);
+            const value       = needle[index].value;
+            parameters[part.value] = valueParsed && valueParsed.toString().length === value.length ? valueParsed : value;
           }
         });
         return { path : match.path, parameters };

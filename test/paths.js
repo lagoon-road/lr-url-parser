@@ -17,6 +17,8 @@ tape('Adding urls', test => {
   test.equals(parser.add('/double/:id/:idi'), true);
   test.equals(parser.add('/multiple/:id'), true);
   test.equals(parser.add('/multiple/:else'), true);
+  test.equals(parser.add('/delete/:id'), true);
+  test.equals(parser.add('/delete/:id/bla'), true);
   test.equals(parser.add('something'), false);
   test.equals(parser.parse('just-something').path, 'just-something');
   test.equals(parser.parse('just-something?askdhjlakhds').path, 'just-something?askdhjlakhds');
@@ -35,5 +37,7 @@ tape('Adding urls', test => {
   test.equals(parser.parse('/trail/hehe/').parameters.id, 'hehe');
   test.equals(parser.parse('/trail/hehe/haha').parameters.id, 'hehe');
   test.equals(parser.parse('/trail/hehe/haha/').parameters.something, 'haha');
+  test.equals(parser.parse('/delete/591acd491336047f85f6e3ce').parameters.id, '591acd491336047f85f6e3ce');
+  test.equals(parser.parse('/delete/591acd491336047f85f6e3ce/bla').parameters.id, '591acd491336047f85f6e3ce');
   test.end();
 });
