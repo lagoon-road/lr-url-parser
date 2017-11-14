@@ -1,4 +1,4 @@
-'use-strict';
+const debug = require('debug')('lr-url-parser');
 
 module.exports = function() {
   let paths = [];
@@ -18,6 +18,7 @@ module.exports = function() {
 
   return {
     add(path) {
+      debug(`Adding path: ${ path }`);
       if (path[path.length - 1] === '/' && path.length !== 1) {
         path = path.slice(0, -1);
       }
@@ -30,7 +31,9 @@ module.exports = function() {
       }
     },
     parse(path) {
+      debug(`Parsing path: ${ path }`);
       if (path[0] !== '/') {
+        debug('Found absolute path');
         return { path };
       }
       if (path[path.length - 1] === '/' && path.length !== 1) {
@@ -51,6 +54,7 @@ module.exports = function() {
       }
 
       if (!Array.isArray(match)) {
+        debug('Found match with parameters');
         let parameters = {};
         match.parts.forEach((part, index) => {
           if (!part.static) {
@@ -59,10 +63,14 @@ module.exports = function() {
             parameters[part.value] = valueParsed && valueParsed.toString().length === value.length ? valueParsed : value;
           }
         });
-        return { path : match.path, parameters };
+        const output = { path : match.path, parameters };
+        debug(output);
+        return output;
       }
-
-      return { path : path.split('?').shift() };
+      const output = { path : path.split('?').shift() };
+      debug('Found static relative path');
+      debug(output);
+      return output;
     }
   }
 };
