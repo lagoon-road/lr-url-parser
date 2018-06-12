@@ -1,6 +1,6 @@
 {
   "name": "lr-url-parser",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Parser for request urls, takes placeholders and matches them with real urls",
   "main": "index.js",
   "scripts": {
@@ -26,12 +26,12 @@
   },
   "homepage": "https://github.com/lagoon-road/lr-url-parser#readme",
   "devDependencies": {
-    "babel-polyfill": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-babili": "0.0.12",
     "babel-preset-latest": "^6.22.0",
     "babelify": "^7.3.0",
-    "browserify": "^14.0.0",
-    "tape": "^4.6.3"
+    "browserify": "^14.5.0",
+    "tape": "^4.9.1"
   },
   "dependencies": {
     "debug": "^3.1.0"

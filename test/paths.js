@@ -4,40 +4,67 @@ const tape   = require('tape');
 const parser = require('../index')();
 
 tape('Adding urls', test => {
+  // Non relative tests
+  test.equals(parser.add('non-slash'), false);
+  test.equals(parser.add('https://royniels.nl'), false);
+  test.equals(parser.parse('https://royniels.nl').path, 'https://royniels.nl');
+  test.equals(parser.parse('non-slash').path, 'non-slash');
+
+  // Root only test
+  test.equals(parser.parse('/'), false);
   test.equals(parser.add('/'), true);
-  test.equals(parser.add('/trail/'), true);
-  test.equals(parser.add('/trail/:id/'), true);
-  test.equals(parser.add('/trail/:id/:something/'), true);
-  test.equals(parser.add('/somepath?queryparams'), true);
+  test.equals(parser.parse('/').path, '/');
+
+  // Statics only
+  test.equals(parser.parse('/one'), false);
+  test.equals(parser.parse('/one/two'), false);
+  test.equals(parser.parse('/one/two/three'), false);
+  test.equals(parser.add('/one'), true);
+  test.equals(parser.add('/one/two'), true);
+  test.equals(parser.add('/one/two/three'), true);
+  test.equals(parser.parse('/one').path, '/one');
+  test.equals(parser.parse('/one/two').path, '/one/two');
+  test.equals(parser.parse('/one/two/three').path, '/one/two/three');
+
+  // Multiple slashes
+  test.equals(parser.parse('//').path, '/');
+  test.equals(parser.add('///'), true);
+  test.equals(parser.parse('///').path, '/');
+  test.equals(parser.add('//////'), true);
+  test.equals(parser.parse('//////').path, '////'); // Removed trailing slash and joining slash
+
+  // Trailing slashes
+  test.equals(parser.parse('/trailing/'), false);
+  test.equals(parser.add('/trailing/'), true);
+  test.equals(parser.parse('/trailing/').path, '/trailing');
+
+  // Single param
+  test.equals(parser.parse('/:id'), false);
   test.equals(parser.add('/:id'), true);
-  test.equals(parser.add('/path/with/:multiple/sections'), true);
-  test.equals(parser.add('/some/path'), true);
-  test.equals(parser.add('/some/path'), false);
-  test.equals(parser.add('/dynamic/:id'), true);
-  test.equals(parser.add('/double/:id/:idi'), true);
-  test.equals(parser.add('/multiple/:id'), true);
-  test.equals(parser.add('/multiple/:else'), true);
-  test.equals(parser.add('/delete/:id'), true);
-  test.equals(parser.add('/delete/:id/bla'), true);
-  test.equals(parser.add('something'), false);
-  test.equals(parser.parse('just-something').path, 'just-something');
-  test.equals(parser.parse('just-something?askdhjlakhds').path, 'just-something?askdhjlakhds');
-  test.equals(parser.parse('/some/path').path, '/some/path');
-  test.equals(parser.parse('/some/path?params').path, '/some/path');
-  test.equals(parser.parse('/dynamic/1').path, '/dynamic/:id');
-  test.equals(parser.parse('/hey').parameters.id, 'hey');
-  test.equals(parser.parse('/hey/').parameters.id, 'hey');
-  test.equals(parser.parse('/double/1/2').parameters.id, 1);
-  test.equals(parser.parse('/double/1/2').parameters.idi, 2);
-  test.equals(parser.parse('/multiple/1').parameters.id, undefined);
-  test.equals(parser.parse('/multiple/1').parameters.else, 1);
-  test.equals(parser.parse('/bla/bla').path, '/bla/bla');
-  test.equals(parser.parse('/bla/bla?hehe').path, '/bla/bla');
-  test.equals(parser.parse('/trail/hehe').parameters.id, 'hehe');
-  test.equals(parser.parse('/trail/hehe/').parameters.id, 'hehe');
-  test.equals(parser.parse('/trail/hehe/haha').parameters.id, 'hehe');
-  test.equals(parser.parse('/trail/hehe/haha/').parameters.something, 'haha');
-  test.equals(parser.parse('/delete/591acd491336047f85f6e3ce').parameters.id, '591acd491336047f85f6e3ce');
-  test.equals(parser.parse('/delete/591acd491336047f85f6e3ce/bla').parameters.id, '591acd491336047f85f6e3ce');
+  test.equals(parser.parse('/1').parameters.id, 1);
+  test.equals(parser.remove('/:id'), true);
+  test.equals(parser.parse('/fixed/1'), false);
+  test.equals(parser.add('/fixed/:id'), true);
+  test.equals(parser.parse('/fixed/1').parameters.id, 1);
+  test.equals(parser.remove('/fixed/:id'), true);
+
+  // path with fixed after dynamic parts
+  test.equals(parser.parse('/1/fixed'), false);
+  test.equals(parser.add('/:id/fixed'), true);
+  test.equals(parser.parse('/1/fixed').parameters.id, 1);
+  test.equals(parser.parse('/1'), false);
+  test.equals(parser.remove('/:id/fixed'), true);
+
+  // Optional dynamics
+  test.equals(parser.parse('/1/2/3'), false);
+  test.equals(parser.add('/:a/:b/:c'), true);
+  test.equals(parser.parse('/1').parameters.a, 1);
+  test.equals(parser.parse('/1/2').parameters.a, 1);
+  test.equals(parser.parse('/1/2').parameters.b, 2);
+  test.equals(parser.parse('/1/2/3').parameters.a, 1);
+  test.equals(parser.parse('/1/2/3').parameters.b, 2);
+  test.equals(parser.parse('/1/2/3').parameters.c, 3);
+  test.equals(parser.remove('/:a/:b/:c'), true);
+
   test.end();
 });
