@@ -59,11 +59,14 @@ tape('Adding urls', test => {
   test.equals(parser.parse('/1/2/3'), false);
   test.equals(parser.add('/:a/:b/:c'), true);
   test.equals(parser.parse('/1').parameters.a, 1);
+  test.equals(parser.parse('/1').path, '/:a/:b/:c');
   test.equals(parser.parse('/1/2').parameters.a, 1);
   test.equals(parser.parse('/1/2').parameters.b, 2);
+  test.equals(parser.parse('/1/2').path, '/:a/:b/:c');
   test.equals(parser.parse('/1/2/3').parameters.a, 1);
   test.equals(parser.parse('/1/2/3').parameters.b, 2);
   test.equals(parser.parse('/1/2/roy').parameters.c, 'roy');
+  test.equals(parser.parse('/1/2/3').path, '/:a/:b/:c');
   test.equals(parser.remove('/:a/:b/:c'), true);
   test.equals(parser.remove('/:a/:b/:c'), false);
 
