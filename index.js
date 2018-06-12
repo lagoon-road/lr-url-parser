@@ -49,13 +49,13 @@ module.exports = function() {
       return path.parts
         .filter(part => part.static === true)
         .filter(part => {
-          // When needle is to short, they don't match
-          if (needle[part.index] === undefined) {
-            return false;
+          // // When needle is to short, they don't match
+          if (needle.length <= part.index) {
+            return true;
           }
-          return part.value === needle[part.index].value
+          return part.value !== needle[part.index].value
         })
-        .length > 0;
+        .length === 0;
     });
 
     // No match found

@@ -70,5 +70,13 @@ tape('Adding urls', test => {
   test.equals(parser.remove('/:a/:b/:c'), true);
   test.equals(parser.remove('/:a/:b/:c'), false);
 
+  test.equals(parser.add('/one/two/three/:a'), true);
+  test.equals(parser.add('/one/two/four/:a'), true);
+  test.equals(parser.add('/one/two/five/:a'), true);
+  test.equals(parser.add('/one/two/five/:a/:b'), true);
+  test.equals(parser.parse('/one/two/three/1').path, '/one/two/three/:a');
+  test.equals(parser.parse('/one/two/four/1').path, '/one/two/four/:a');
+  test.equals(parser.parse('/one/two/five/1').path, '/one/two/five/:a');
+
   test.end();
 });
